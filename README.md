@@ -2,6 +2,25 @@
 
 An immersive 3D visual storytelling experience built with React, Three.js, and GSAP. Experience a narrative told entirely through environmental changes, lighting, and motion - no text required.
 
+## 🌐 View Live Demo
+
+Once deployed, your site will be available at:
+**https://sliu44artcenter.github.io/StoryInteract2/**
+
+### Quick Deployment to GitHub Pages
+
+This project includes automatic GitHub Pages deployment via GitHub Actions:
+
+1. **Merge to main branch**: Create a pull request and merge your changes to the `main` branch
+2. **Enable GitHub Pages**:
+   - Go to your repository settings on GitHub
+   - Navigate to **Settings → Pages**
+   - Under "Build and deployment", select:
+     - **Source**: GitHub Actions
+3. **Automatic deployment**: The site will automatically build and deploy when you push to `main`
+
+The GitHub Actions workflow (`.github/workflows/deploy.yml`) handles the build and deployment automatically.
+
 ## 🎭 Story
 
 A scholar has become the top-ranking official (状元) and must decide how to build homes for citizens in a winter mountain city. The fate of the city depends on this crucial choice.
@@ -63,21 +82,16 @@ npm run build
 npm run preview
 ```
 
-### Deployment to GitHub Pages
+### Deployment
 
+Deployment to GitHub Pages is handled automatically by GitHub Actions when you merge to the `main` branch. No manual deployment commands needed!
+
+If you need to deploy elsewhere, simply build the project:
 ```bash
-# Build and deploy to GitHub Pages
-npm run deploy
+npm run build
 ```
 
-Make sure to update the `base` property in `vite.config.js` to match your repository name:
-
-```javascript
-export default defineConfig({
-  base: '/your-repo-name/',
-  // ...
-})
-```
+The production-ready files will be in the `dist/` folder.
 
 ## 📁 Project Structure
 
