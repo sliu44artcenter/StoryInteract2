@@ -6,7 +6,10 @@ import gsap from 'gsap'
 function ChoiceIcon({ position, color, geometry, onClick, onHover }) {
   const meshRef = useRef()
   const glowRef = useRef()
+  const groupRef = useRef()
   const [hovered, setHovered] = useState(false)
+  const targetScale = useRef(new THREE.Vector3(1, 1, 1))
+  const currentScale = useRef(new THREE.Vector3(1, 1, 1))
 
   useEffect(() => {
     // Float animation
@@ -29,22 +32,26 @@ function ChoiceIcon({ position, color, geometry, onClick, onHover }) {
   }, [position])
 
   useFrame((state) => {
-    if (meshRef.current && glowRef.current) {
+    if (meshRef.current && glowRef.current && groupRef.current) {
       // Pulsing glow effect
       const pulse = Math.sin(state.clock.getElapsedTime() * 2) * 0.3 + 1
-      glowRef.current.scale.setScalar(pulse)
+      glowRef.current.scale.set(pulse, pulse, pulse)
 
-      // Enhanced glow when hovered
-      if (hovered) {
-        meshRef.current.scale.lerp(new THREE.Vector3(1.3, 1.3, 1.3), 0.1)
-      } else {
-        meshRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1)
-      }
+      // Enhanced scale when hovered
+      targetScale.current.set(
+        hovered ? 1.3 : 1,
+        hovered ? 1.3 : 1,
+        hovered ? 1.3 : 1
+      )
+
+      currentScale.current.lerp(targetScale.current, 0.1)
+      groupRef.current.scale.copy(currentScale.current)
     }
   })
 
   return (
     <group
+      ref={groupRef}
       position={position}
       onClick={onClick}
       onPointerEnter={() => {
