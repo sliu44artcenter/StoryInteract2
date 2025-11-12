@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - claude/3d-narrative-winter-city-011CV3WwkWhPeSnnVn2D3EGQ
   workflow_dispatch:
 
 permissions:
