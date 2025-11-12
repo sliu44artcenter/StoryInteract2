@@ -32,8 +32,8 @@ function App() {
         }}
         shadows
       >
-        <color attach="background" args={['#485563']} />
-        <fog attach="fog" args={['#485563', 30, 80]} />
+        <color attach="background" args={['#5a6c7d']} />
+        <fog attach="fog" args={['#6b7c8d', 25, 70]} />
 
         <Suspense fallback={<LoadingFallback />}>
           <Scene />

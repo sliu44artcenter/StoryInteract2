@@ -85,12 +85,18 @@ function CameraController({ isAnimating, selectedChoice }) {
 
   useFrame((state) => {
     if (!isAnimating) {
-      // Gentle orbit animation before choice
-      const time = state.clock.getElapsedTime() * 0.1
-      camera.position.x = Math.sin(time) * 25
-      camera.position.z = Math.cos(time) * 25
-      camera.position.y = 15 + Math.sin(time * 0.5) * 2
-      camera.lookAt(0, 2, 0)
+      // Cinematic orbit animation before choice
+      const time = state.clock.getElapsedTime() * 0.08
+      const radius = 28
+      const heightOffset = 16
+      const verticalMotion = Math.sin(time * 0.6) * 3
+
+      camera.position.x = Math.sin(time) * radius
+      camera.position.z = Math.cos(time) * radius
+      camera.position.y = heightOffset + verticalMotion
+
+      // Look slightly above center for cinematic feel
+      camera.lookAt(0, 3, 0)
     }
   })
 

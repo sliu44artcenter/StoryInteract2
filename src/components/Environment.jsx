@@ -54,10 +54,10 @@ function SnowParticles({ count = 2000, intensity = 1, wind = 0 }) {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.15}
-        color="#ffffff"
+        size={0.2}
+        color="#f0f8ff"
         transparent
-        opacity={0.8}
+        opacity={0.9}
         sizeAttenuation
         depthWrite={false}
       />

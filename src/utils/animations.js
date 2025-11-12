@@ -188,22 +188,45 @@ export function playStoneEnding(refs) {
   goldenLight.position.set(0, 30, 0)
   scene.add(goldenLight)
 
+  // Add directional golden light for sunrise effect
+  const sunriseLight = new THREE.DirectionalLight('#ffaa00', 0)
+  sunriseLight.position.set(25, 15, 10)
+  scene.add(sunriseLight)
+
   timeline.to(goldenLight, {
-    intensity: 2,
+    intensity: 3,
     duration: 3,
     ease: 'power2.out'
   }, 9)
 
+  timeline.to(sunriseLight, {
+    intensity: 1.2,
+    duration: 3,
+    ease: 'power2.out'
+  }, 9)
+
+  // Warm golden sky
   timeline.to(scene.background, {
-    r: 0.4,
-    g: 0.45,
-    b: 0.5,
+    r: 0.8,
+    g: 0.65,
+    b: 0.4,
     duration: 3
   }, 9)
 
+  // Brighten ambient for hopeful feeling
   if (lighting.ambient?.current) {
     timeline.to(lighting.ambient.current, {
-      intensity: 0.5,
+      intensity: 0.7,
+      duration: 3
+    }, 9)
+  }
+
+  // Update fog to golden hue
+  if (scene.fog) {
+    timeline.to(scene.fog.color, {
+      r: 0.8,
+      g: 0.65,
+      b: 0.4,
       duration: 3
     }, 9)
   }
@@ -285,23 +308,58 @@ export function playWoodEnding(refs) {
     environment.current.setSmokeSources(fireSources)
   }
 
-  // Orange fire glow
-  const fireLight = new THREE.PointLight('#ff4500', 0, 60)
-  fireLight.position.set(0, 10, 0)
-  scene.add(fireLight)
+  // Multiple fire lights for more dramatic effect
+  const fireLight1 = new THREE.PointLight('#ff4500', 0, 60)
+  fireLight1.position.set(0, 10, 0)
+  scene.add(fireLight1)
 
-  timeline.to(fireLight, {
-    intensity: 3,
-    duration: 2,
-    ease: 'power2.out'
+  const fireLight2 = new THREE.PointLight('#ff6347', 0, 40)
+  fireLight2.position.set(10, 5, 10)
+  scene.add(fireLight2)
+
+  const fireLight3 = new THREE.PointLight('#ff8c00', 0, 40)
+  fireLight3.position.set(-10, 5, -10)
+  scene.add(fireLight3)
+
+  // Flickering fire lights
+  timeline.to(fireLight1, {
+    intensity: 4,
+    duration: 0.3,
+    repeat: 8,
+    yoyo: true,
+    ease: 'power2.inOut'
   }, 7)
 
+  timeline.to([fireLight2, fireLight3], {
+    intensity: 2.5,
+    duration: 0.5,
+    repeat: 5,
+    yoyo: true,
+    ease: 'power2.inOut'
+  }, 7.2)
+
+  // Deep red-orange apocalyptic sky
   timeline.to(scene.background, {
-    r: 0.3,
-    g: 0.05,
+    r: 0.4,
+    g: 0.08,
     b: 0.0,
     duration: 3
   }, 7)
+
+  // Update fog to reddish smoke
+  if (scene.fog) {
+    timeline.to(scene.fog.color, {
+      r: 0.3,
+      g: 0.05,
+      b: 0.0,
+      duration: 3
+    }, 7)
+    timeline.to(scene.fog, {
+      near: 15,
+      far: 50,
+      duration: 3
+    }, 7)
+  }
 
   // Phase 5: Houses burn and char (10-14s)
   houses.forEach((house, index) => {
@@ -376,16 +434,43 @@ export function playStrawEnding(refs) {
   }, 3)
 
   // Phase 3: Storm intensifies (5-8s)
+  // Harsh bright white blizzard sky
   timeline.to(scene.background, {
-    r: 0.7,
-    g: 0.75,
-    b: 0.8,
+    r: 0.85,
+    g: 0.88,
+    b: 0.92,
     duration: 3
   }, 5)
 
   if (lighting.ambient?.current) {
     timeline.to(lighting.ambient.current, {
-      intensity: 0.8,
+      intensity: 1.0,
+      duration: 3
+    }, 5)
+  }
+
+  // Add blue-white directional wind light
+  const windLight = new THREE.DirectionalLight('#b3d9ff', 0)
+  windLight.position.set(-20, 10, 0)
+  scene.add(windLight)
+
+  timeline.to(windLight, {
+    intensity: 0.8,
+    duration: 2,
+    ease: 'power2.out'
+  }, 5)
+
+  // Update fog to icy white
+  if (scene.fog) {
+    timeline.to(scene.fog.color, {
+      r: 0.85,
+      g: 0.88,
+      b: 0.92,
+      duration: 3
+    }, 5)
+    timeline.to(scene.fog, {
+      near: 10,
+      far: 40,
       duration: 3
     }, 5)
   }
@@ -468,12 +553,24 @@ export function playStrawEnding(refs) {
 
   // Phase 6: Blizzard peak, cold blue lighting (15-18s)
   timeline.to(scene.background, {
-    r: 0.8,
-    g: 0.85,
-    b: 0.95,
+    r: 0.92,
+    g: 0.94,
+    b: 0.98,
     duration: 3
   }, 15)
 
+  // Add dramatic blue point light for ice effect
+  const iceLight = new THREE.PointLight('#4da6ff', 0, 60)
+  iceLight.position.set(0, 15, 0)
+  scene.add(iceLight)
+
+  timeline.to(iceLight, {
+    intensity: 2,
+    duration: 3,
+    ease: 'power2.out'
+  }, 15)
+
+  // Camera rises and shakes from wind
   timeline.to(camera.position, {
     x: 0,
     y: 25,
@@ -481,6 +578,16 @@ export function playStrawEnding(refs) {
     duration: 3,
     ease: 'power2.out'
   }, 15)
+
+  // Add camera shake effect during collapse
+  timeline.to(camera.position, {
+    x: '+=1',
+    y: '+=0.5',
+    duration: 0.1,
+    repeat: 20,
+    yoyo: true,
+    ease: 'none'
+  }, 11)
 
   return timeline
 }

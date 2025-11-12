@@ -1,14 +1,29 @@
 import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 function Scholar() {
   const groupRef = useRef()
+  const bodyRef = useRef()
+
+  // Subtle idle animation
+  useFrame((state) => {
+    if (groupRef.current && bodyRef.current) {
+      // Gentle breathing effect
+      const breathe = Math.sin(state.clock.getElapsedTime() * 0.8) * 0.02 + 1
+      bodyRef.current.scale.y = breathe
+
+      // Subtle sway
+      const sway = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.015
+      groupRef.current.rotation.y = sway
+    }
+  })
 
   // Create a simplified humanoid figure using basic geometry
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       {/* Body */}
-      <mesh position={[0, 2, 0]} castShadow>
+      <mesh ref={bodyRef} position={[0, 2, 0]} castShadow>
         <boxGeometry args={[0.8, 1.5, 0.5]} />
         <meshStandardMaterial color="#2c3e50" />
       </mesh>
